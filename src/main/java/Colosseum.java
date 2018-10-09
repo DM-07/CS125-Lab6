@@ -53,7 +53,7 @@ public class Colosseum {
      * Requirements we should check the user for: <br>
      * - The type of Pokemon is 1 of the 3 choices <br>
      * - Hit points are between 1 and MAX_HIT_POINTS <br>
-     * - No more than 50 points are split between attack level and defense leve <br>
+     * - No more than 50 points are split between attack level and defense level <br>
      * - Attack level and defense level must have at least 1 point each <br>
      * Example of how this will look to the user:
      * <p>
@@ -102,7 +102,51 @@ public class Colosseum {
      * (Look, we can return objects too!)
      */
     public static Pokemon buildPokemon() {
-        Pokemon returnPokemon = null;
+        Pokemon returnPokemon;
+        System.out.println("Select from the following Pokemon types:");
+        System.out.println("1 - Electric Pokemon");
+        System.out.println("2 - Fire Pokemon");
+        System.out.println("3 - Water Pokemon");
+        int pokemontype = myScan.nextInt();
+        while (pokemontype > 3 || pokemontype < 1) {
+            System.out.println("Sorry, you must pick either 1, 2, or 3.");
+            pokemontype = myScan.nextInt();
+        }
+        if (pokemontype == 1) {
+            returnPokemon = new ElectricPokemon();
+        } else if (pokemontype == 2) {
+            returnPokemon = new FirePokemon();
+        } else {
+            returnPokemon = new WaterPokemon();
+        }
+
+        System.out.println("Please name your Pokemon: ");
+        returnPokemon.setName(myScan.next());
+
+        System.out.println("How many hit points will it have? (1-50): ");
+        int temphitpoints = myScan.nextInt();
+        while (temphitpoints < 1 || temphitpoints > MAX_HIT_POINTS) {
+            System.out.println("Sorry. Hit points must be between 1 and 50: ");
+            temphitpoints = myScan.nextInt();
+        }
+        returnPokemon.setHitPoints(temphitpoints);
+
+        System.out.println("Split fifty points between attack level and defense level");
+        System.out.println("Enter your attack level (1-49): ");
+        int tempattacklevel = myScan.nextInt();
+        while (tempattacklevel < 1 || tempattacklevel > 49) {
+            System.out.println("Sorry. The attack level must be between 1 and 49: ");
+            tempattacklevel = myScan.nextInt();
+        }
+        returnPokemon.setAttackLevel(tempattacklevel);
+
+        System.out.println("Enter your defense level (1-" + (50 - tempattacklevel) + "): ");
+        int tempdefenselevel = myScan.nextInt();
+        while (tempdefenselevel < 1 || tempdefenselevel > (50 - tempattacklevel)) {
+            System.out.println("Sorry. The defense level must be between 1 and " + (50 - tempattacklevel) + ": ");
+            tempdefenselevel = myScan.nextInt();
+        }
+        returnPokemon.setDefenseLevel(tempdefenselevel);
         return returnPokemon;
     }
 
